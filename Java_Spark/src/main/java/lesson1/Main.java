@@ -14,7 +14,8 @@ public class Main {
         try (SparkSession session = SparkSession.builder()
                 .appName("Lesson1")
                 .master("local[*]").getOrCreate();
-             JavaSparkContext sc = new JavaSparkContext(session.sparkContext());) {
+             JavaSparkContext sc = new JavaSparkContext(session.sparkContext());
+             ) {
             List<Integer> data = Arrays.asList(1, 2, 3, 4, 5);
             JavaRDD<Integer> myRdd = sc.parallelize(data);
             myRdd.foreach(num -> System.out.println(num));
