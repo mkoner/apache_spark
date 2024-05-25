@@ -7,13 +7,24 @@ import org.apache.spark.sql.SparkSession;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        try (SparkSession session = SparkSession.builder()
-                .appName("Lesson1")
-                .master("local[*]").getOrCreate();
+//        SparkConf conf = new SparkConf()
+//                .setAppName("MySparkApp")
+//                .setMaster("local[*]")
+//                .set("spark.ui.port", "4041");
+//        SparkSession session = SparkSession.builder()
+//                .config(conf).getOrCreate();
+
+
+
+        try (
+             SparkSession session = SparkSession.builder()
+                     .appName("Lesson1")
+                     .master("local[*]").getOrCreate();
              JavaSparkContext sc = new JavaSparkContext(session.sparkContext());
              ) {
             List<Integer> data = Arrays.asList(1, 2, 3, 4, 5);
@@ -29,6 +40,10 @@ public class Main {
             System.out.println("Min: " + min);
             Integer sum = myRdd.reduce(Integer::sum);
             System.out.println("Sum: " + sum);
+
+            try(Scanner scanner = new Scanner(System.in)){
+                scanner.nextLine();
+            }
 
         }
     }
