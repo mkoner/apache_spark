@@ -11,9 +11,9 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
         SparkConf conf = new SparkConf().setAppName("Lesson1").setMaster("local[*]");
-//        JavaSparkContext sc = new JavaSparkContext(conf);
-//        List<Integer> data = Arrays.asList(1, 2, 3, 4, 5);
-//        JavaRDD<Integer> myRdd = sc.parallelize(data);
-//        myRdd.foreach(num -> System.out.println(num));
+        JavaSparkContext sc = new JavaSparkContext(conf);
+        List<Integer> data = Arrays.asList(1, 2, 3, 4, 5);
+        JavaRDD<Integer> myRdd = sc.parallelize(data);
+        myRdd.foreach(num -> System.out.println(num));
     }
 }
