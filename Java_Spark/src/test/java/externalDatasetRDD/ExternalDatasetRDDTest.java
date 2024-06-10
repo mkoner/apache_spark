@@ -70,6 +70,29 @@ public class ExternalDatasetRDDTest {
         }
     }
 
+    @Test
+    @DisplayName("Test loading csv file into Spark RDD")
+    void testLoadingCSVFileIntoSparkRDD() {
+        try (final var sparkContext = new JavaSparkContext(sparkConf)) {
+            final String testCSVFilePath = Path.of("src", "test", "resources", "dma.csv").toString();
+            final JavaRDD<String> myRdd = sparkContext.textFile(testCSVFilePath);
+
+            System.out.printf("Total lines in file %d%n", myRdd.count());
+
+            System.out.println("CSV Headers~>");
+            System.out.println(myRdd.first());
+            System.out.println("--------------------");
+
+            System.out.println("Printing first 10 lines~>");
+            myRdd.take(10).forEach(System.out::println);
+            System.out.println("--------------------");
+
+            final JavaRDD<String[]> csvFields = myRdd.map(line -> line.split(","));
+            csvFields.take(5)
+                    .forEach(fields -> System.out.println(String.join("|", fields)));
+        }
+    }
+
     private static Stream<Arguments> getFilePaths() {
         return Stream.of(
                 Arguments.of(Path.of("src", "test", "resources", "abc.txt").toString()),
