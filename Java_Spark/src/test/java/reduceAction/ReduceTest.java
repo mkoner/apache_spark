@@ -46,4 +46,20 @@ public class ReduceTest {
             System.out.printf("[Spark RDD Reduce] time taken: %d ms%n%n", timeElapsed);
         }
     }
+
+    @Test
+    @DisplayName("Test fold() action using Spark RDD")
+    void testFoldActionUsingSparkRDD() {
+        try (final JavaSparkContext sparkContext = new JavaSparkContext(sparkConf)) {
+            final JavaRDD<Double> myRdd = sparkContext.parallelize(data, 14);
+
+            final Instant start = Instant.now();
+            for (int i = 0; i < noOfIterations; i++) {
+                final var sum = myRdd.fold(0D, Double::sum);
+                System.out.println("[Spark RDD Fold] SUM:" + sum);
+            }
+            final long timeElapsed = (Duration.between(start, Instant.now()).toMillis()) / noOfIterations;
+            System.out.printf("[Spark RDD Fold] time taken: %d ms%n%n", timeElapsed);
+        }
+    }
 }
