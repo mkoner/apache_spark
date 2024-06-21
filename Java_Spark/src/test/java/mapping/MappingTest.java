@@ -48,4 +48,21 @@ public class MappingTest {
             System.out.printf("[Spark RDD] count() method time taken: %d ms%n%n", timeElapsed);
         }
     }
+
+    @Test
+    @DisplayName("Test map operation using Spark RDD collect() method")
+    void testMapOperationUsingSparkRDDCollect() {
+        try (final var sparkContext = new JavaSparkContext(sparkConf)) {
+            final var myRdd = sparkContext.parallelize(data);
+
+            final Instant start = Instant.now();
+            for (int i = 0; i < noOfIterations; i++) {
+                final List<Integer> strLengths = myRdd.map(String::length)
+                        .collect();
+                assertEquals(data.size(), strLengths.size());
+            }
+            final long timeElapsed = (Duration.between(start, Instant.now()).toMillis()) / noOfIterations;
+            System.out.printf("[Spark RDD] collect() method time taken: %d ms%n%n", timeElapsed);
+        }
+    }
 }
